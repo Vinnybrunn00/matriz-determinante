@@ -17,14 +17,14 @@ class Matriz {
 
   // Checks if the provided matrix is ​​square.
   // Throws an error if any row has a different size than the total number of rows.
-void _isSquare() {
-for (int i = 0; i < _lines; i++) {
-  final List<int> columns = _matriz[i];
-  if (_lines != columns.length) {
-    throw ArgumentError('The matrix must be square (n x n).');
+  void _isSquare() {
+    for (int i = 0; i < _lines; i++) {
+      final List<int> columns = _matriz[i];
+      if (_lines != columns.length) {
+        throw ArgumentError('The matrix must be square (n x n).');
+      }
+    }
   }
-}
-}
 
   // Performs the main calculation:
   // 1. Extracts elements from the main and secondary diagonals.
