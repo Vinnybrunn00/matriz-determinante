@@ -17,29 +17,34 @@ class Matriz {
   // decide qual algoritmo usar com base no tamanho da matriz
   void _validate() {
     for (int i = 0; i < _lines; i++) {
-      final List<int> columns = _matriz[i];
-      if (_lines != columns.length) {
+      final int columns = _matriz[i].length;
+
+      if (_lines != columns) {
         throw ArgumentError(
           'The Matriz must be square (n x n).',
         ); // validação crítica: a matriz deve ser N x N
       }
     }
 
-    if (_isValidSquareMatriz3x3OrLess()) {
+    if (_isValidSquareMatriz3x3OrLess()!) {
       _result = _calculateDeterminant3x3OrLess();
     } else {
-      _result = _calculateDeterminant4x4OrMore();
+      _result = _calculateDeterminant2x2OrMore();
     }
   }
 
-  // verifica se a matriz está dentro do intervalo de tamanho 2x2 ou 3x3
-  bool _isValidSquareMatriz3x3OrLess() {
-    bool isValid = false;
+  // verifica se a matriz é 3x3
+  bool? _isValidSquareMatriz3x3OrLess() {
+    bool? isValid;
+
     for (int i = 0; i < _lines; i++) {
-      final List<int> column = _matriz[i];
-      final bool sizeLines = (_lines <= 3 && _lines >= 2);
-      final bool sizeColumns = (column.length <= 3 && column.length >= 2);
-      isValid = sizeLines && sizeColumns;
+      final int columns = _matriz[i].length;
+
+      if (_lines <= 2 && columns <= 2) {
+        return false;
+      }
+
+      isValid = _lines == columns;
     }
     return isValid;
   }
@@ -53,8 +58,8 @@ class Matriz {
     return formatMatriz;
   }
 
-  // cálculo para matrizes 4x4 ou maiores -> (Diagonal Principal - Diagonal Secundária)
-  Map<String, dynamic> _calculateDeterminant4x4OrMore() {
+  // cálculo para matrizes 2x2 ou maiores -> (Diagonal Principal - Diagonal Secundária)
+  Map<String, dynamic> _calculateDeterminant2x2OrMore() {
     int resultPrimary = 1;
     int resultSecondary = 1;
 
